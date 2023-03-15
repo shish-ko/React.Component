@@ -103,3 +103,30 @@ button:focus-visible {
 #root {
   height: 100vh;
 }
+main{
+  max-width: 1200px;
+  margin: 20px auto 0;
+}
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product {
+  max-width: 22%;
+  margin-bottom: 20px;
+  border: 1px #747bff solid;
+  border-radius: 4px;
+}
+
+.product__image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+.product__brand,
+.product__title,
+.product__stock {
+  margin-bottom: 5px;
+}

@@ -1,10 +1,7 @@
 import React from 'react';
+import PageElement from '../components/PageElement';
 
-interface AboutProps {
-  titleHandler: (pageTitle: string) => void;
-}
-
-export class ErrorPage extends React.Component<AboutProps> {
+export class ErrorPage extends PageElement {
   componentDidMount(): void {
     this.props.titleHandler('404');
   }

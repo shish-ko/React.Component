@@ -1,10 +1,7 @@
 import React from 'react';
+import PageElement from '../components/PageElement';
 
-interface AboutProps {
-  titleHandler: (pageTitle: string) => void;
-}
-
-class AboutUs extends React.Component<AboutProps> {
+class AboutUs extends PageElement {
   componentDidMount(): void {
     this.props.titleHandler('About us');
   }

@@ -1,4 +1,4 @@
-import AboutUs from './components/AboutUs';
+import AboutUs from './pages/AboutUs';
 import React from 'react';
 import {
   createBrowserRouter,
@@ -7,7 +7,8 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import Index from './components/index';
-import { ErrorPage } from './components/ErrorPage';
+import { ErrorPage } from './pages/ErrorPage';
+import { MainPage } from './pages/MainPage';
 
 interface RouterState {
   currentPage: string;
@@ -26,6 +27,7 @@ class Router extends React.Component<unknown, RouterState> {
         router={createBrowserRouter(
           createRoutesFromElements(
             <Route path="/" element={<Index currentPage={this.state.currentPage} />}>
+              <Route index={true} element={<MainPage titleHandler={this.handler} />} />
               <Route path="aboutus/" element={<AboutUs titleHandler={this.handler} />} />
               <Route path="*" element={<ErrorPage titleHandler={this.handler} />} />
             </Route>
