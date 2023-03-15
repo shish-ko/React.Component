@@ -70,7 +70,6 @@ button:focus-visible {
 }
 
 .header {
-  height: 10%;
   background-color: #535bf2;
   padding-right: 10%;
   display: flex;
@@ -100,9 +99,6 @@ button:focus-visible {
   background-color: #ffffff;
 }
 
-#root {
-  height: 100vh;
-}
 main{
   max-width: 1200px;
   margin: 20px auto 0;
@@ -118,6 +114,7 @@ main{
   margin-bottom: 20px;
   border: 1px #747bff solid;
   border-radius: 4px;
+  overflow: hidden;
 }
 
 .product__image {
@@ -129,4 +126,40 @@ main{
 .product__title,
 .product__stock {
   margin-bottom: 5px;
+}
+
+.search {
+  margin: 0 auto 20px;
+  width: fit-content;
+  position: relative;
+}
+
+.search__input {
+  width: 300px;
+  height: 30px;
+  border: 1px solid rgba(115, 121, 231, 0.596);
+  padding-left: 30px;
+  border-radius: 10px;
+}
+
+.search__input:focus{
+  outline: none;
+  border-color: rgb(115, 121, 231);
+}
+
+.search__input-logo {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 20px;
+}
+
+.error-page {
+  text-align: center;
+  margin-top: 100px;
+}
+.error-page__title {
+  font-size: 15rem;
+  line-height: 15rem;
+
 }

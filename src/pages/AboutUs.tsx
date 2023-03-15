@@ -8,7 +8,7 @@ class AboutUs extends PageElement {
   render = () => {
     return (
       <div className="App">
-        <div>Hello world</div>
+        <div>Page is under maintain...</div>
       </div>
     );
   };

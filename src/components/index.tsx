@@ -14,14 +14,14 @@ class Index extends React.Component<IndexProps> {
     <>
       <header className="header">
         <div className="header__current">{this.props.currentPage}</div>
-        <div className="header__links">
+        <nav className="header__links">
           <Link to={'/'} className="header__link">
             Main page
           </Link>
           <Link to={'aboutus/'} className="header__link">
             About us
           </Link>
-        </div>
+        </nav>
       </header>
       <main>
         <Outlet />
