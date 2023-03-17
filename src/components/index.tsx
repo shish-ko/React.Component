@@ -12,13 +12,15 @@ class Index extends React.Component<IndexProps> {
 
   render = () => (
     <>
-      <header className="header">
-        <div className="header__current">{this.props.currentPage}</div>
+      <header className="header" data-testid="header">
+        <div className="header__current" data-testid="current_page">
+          {this.props.currentPage}
+        </div>
         <nav className="header__links">
-          <Link to={'/'} className="header__link">
+          <Link to={'/'} className="header__link" data-testid="link_main">
             Main page
           </Link>
-          <Link to={'aboutus/'} className="header__link">
+          <Link to={'aboutus/'} className="header__link" data-testid="link_about">
             About us
           </Link>
         </nav>
