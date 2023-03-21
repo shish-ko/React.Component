@@ -23,6 +23,9 @@ class Index extends React.Component<IndexProps> {
           <Link to={'aboutus/'} className="header__link" data-testid="link_about">
             About us
           </Link>
+          <Link to={'form/'} className="header__link" data-testid="link_form">
+            Form
+          </Link>
         </nav>
       </header>
       <main>

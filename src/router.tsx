@@ -9,11 +9,11 @@ import {
 import Index from './components/index';
 import { ErrorPage } from './pages/ErrorPage';
 import { MainPage } from './pages/MainPage';
+import { FormPage } from './pages/FormPage';
 
 interface RouterState {
   currentPage: string;
 }
-
 class Router extends React.Component<unknown, RouterState> {
   state: RouterState = {
     currentPage: 'No',
@@ -29,6 +29,7 @@ class Router extends React.Component<unknown, RouterState> {
             <Route path="/" element={<Index currentPage={this.state.currentPage} />}>
               <Route index={true} element={<MainPage titleHandler={this.handler} />} />
               <Route path="aboutus/" element={<AboutUs titleHandler={this.handler} />} />
+              <Route path="form/" element={<FormPage titleHandler={this.handler} />} />
               <Route path="*" element={<ErrorPage titleHandler={this.handler} />} />
             </Route>
           )
