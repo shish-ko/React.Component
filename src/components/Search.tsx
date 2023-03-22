@@ -10,7 +10,7 @@ export class Search extends React.Component<unknown, SearchState> {
       this.setState({ searchValue: localStorage.getItem('searchValue') as string });
   }
   componentWillUnmount(): void {
-    this.state.searchValue && localStorage.setItem('searchValue', this.state.searchValue);
+    localStorage.setItem('searchValue', this.state.searchValue);
   }
   state = {
     searchValue: '',
