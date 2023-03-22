@@ -12,15 +12,37 @@ export interface ICard {
   images: string[];
 }
 
-export interface IFormCard {
+export interface IAccountCard {
   name: string;
   address: string;
   birthDate: string;
-  img: Blob;
+  img: string;
   shippingMethod: 'dhl' | 'usps' | 'pick up';
   gender: 'male' | 'female' | 'unknown';
 }
 
 export interface PageElProps {
   titleHandler: (pageTitle: string) => void;
+}
+
+export interface IFormState {
+  address: boolean;
+  name: boolean;
+  birthDate: boolean;
+  shippingMethod: boolean;
+  agreement: boolean;
+  gender: boolean;
+  img: boolean;
+}
+
+export interface IFormRefs {
+  nameRef: React.RefObject<HTMLInputElement>;
+  addressRef: React.RefObject<HTMLInputElement>;
+  birthDateRef: React.RefObject<HTMLInputElement>;
+  shippingMethodRef: React.RefObject<HTMLSelectElement>;
+  agreementRef: React.RefObject<HTMLInputElement>;
+  maleRef: React.RefObject<HTMLInputElement>;
+  femaleRef: React.RefObject<HTMLInputElement>;
+  unknownGenderRef: React.RefObject<HTMLInputElement>;
+  imgRef: React.RefObject<HTMLInputElement>;
 }

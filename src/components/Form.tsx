@@ -1,29 +1,12 @@
-import { IFormCard } from 'interfaces';
+import { IAccountCard, IFormRefs, IFormState } from 'interfaces';
 import React from 'react';
+import { validator } from '../utils';
 
 interface IFormProps {
-  formHandler(item: IFormCard): void;
+  formHandler(item: IAccountCard): void;
 }
-interface IFormState {
-  address: boolean;
-  name: boolean;
-  birthDate: boolean;
-  shippingMethod: boolean;
-  agreement: boolean;
-  gender: boolean;
-}
-
-type customInputEl = HTMLInputElement & { notValid: boolean };
 
 export class Form extends React.Component<IFormProps, IFormState> {
-  nameRef: React.RefObject<customInputEl>;
-  addressRef: React.RefObject<customInputEl>;
-  birthDateRef: React.RefObject<customInputEl>;
-  shippingMethodRef: React.RefObject<HTMLSelectElement>;
-  agreementRef: React.RefObject<customInputEl>;
-  maleRef: React.RefObject<customInputEl>;
-  femaleRef: React.RefObject<customInputEl>;
-  unknownGenderRef: React.RefObject<customInputEl>;
   constructor(props: IFormProps) {
     super(props);
     this.state = {
@@ -33,34 +16,29 @@ export class Form extends React.Component<IFormProps, IFormState> {
       shippingMethod: false,
       agreement: false,
       gender: false,
+      img: false,
     };
-    this.nameRef = React.createRef();
-    this.addressRef = React.createRef();
-    this.birthDateRef = React.createRef();
-    this.shippingMethodRef = React.createRef();
-    this.agreementRef = React.createRef();
-    this.maleRef = React.createRef();
-    this.femaleRef = React.createRef();
-    this.unknownGenderRef = React.createRef();
-    this.handler = this.handler.bind(this);
   }
-  handler(e: React.FormEvent<HTMLFormElement>) {
+  ref: IFormRefs = {
+    nameRef: React.createRef(),
+    addressRef: React.createRef(),
+    birthDateRef: React.createRef(),
+    shippingMethodRef: React.createRef(),
+    agreementRef: React.createRef(),
+    maleRef: React.createRef(),
+    femaleRef: React.createRef(),
+    unknownGenderRef: React.createRef(),
+    imgRef: React.createRef(),
+  };
+
+  handler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(this.shippingMethodRef.current?.value);
-    this.maleRef.current!.notValid = false;
-    if (
-      this.shippingMethodRef.current?.value === 'dhl' ||
-      this.shippingMethodRef.current?.value === 'usps' ||
-      this.shippingMethodRef.current?.value === 'pick up'
-    ) {
-      // this.props.formHandler({
-      //   name: this.nameRef.current!.value,
-      //   birthDate: this.birthDateRef.current!.value,
-      //   address: this.addressRef.current!.value,
-      //   shippingMethod: this.shippingMethodRef.current!.value,
-      //  });
+    const res = validator(this.setState.bind(this), this.ref);
+    if (res) {
+      this.props.formHandler(res);
     }
-  }
+  };
+
   render() {
     return (
       <form className="form" method="post" onSubmit={this.handler}>
@@ -68,33 +46,35 @@ export class Form extends React.Component<IFormProps, IFormState> {
           <label htmlFor="name" className="form__label">
             First Name
           </label>
-          <input name="name" ref={this.nameRef} className="form__text-input" />
+          <input name="name" ref={this.ref.nameRef} className="form__text-input" />
           <label htmlFor="name" className="form__error-label">
             {this.state.name && 'name should be at least 3 characters long'}
           </label>
         </div>
         <div className="form__item">
           <label htmlFor="address"> Address </label>
-          <input name="address" ref={this.addressRef} className="form__text-input" />
+          <input name="address" ref={this.ref.addressRef} className="form__text-input" />
           <label htmlFor="address" className="form__error-label">
-            {this.state.address && 'address line should contain at least 3 words'}
+            {this.state.address &&
+              'address should be at least 3 words long with one longer than 3 char'}
           </label>
         </div>
         <div className="form__item">
           <label htmlFor="birthDate"> Date-of-birth</label>
           <input
             name="birthDate"
-            ref={this.birthDateRef}
+            ref={this.ref.birthDateRef}
             className="form__text-input"
             type={'date'}
+            max={new Date().toISOString().split('T')[0]}
           />
           <label htmlFor="birthDate" className="form__error-label">
-            {this.state.birthDate && 'address line should contain at least 3 words'}
+            {this.state.birthDate && 'you should be older than 10 years to make an order'}
           </label>
         </div>
         <div className="form__item">
           <label htmlFor="shippingMethod"> Shipping method</label>
-          <select className="form__text-input" ref={this.shippingMethodRef}>
+          <select className="form__text-input" ref={this.ref.shippingMethodRef}>
             <option value="" hidden>
               Choose one
             </option>
@@ -103,32 +83,45 @@ export class Form extends React.Component<IFormProps, IFormState> {
             <option value="dhl">DHL</option>
           </select>
           <label htmlFor="shippingMethod" className="form__error-label">
-            !
+            {this.state.shippingMethod && 'make your choice'}
           </label>
+          {localStorage.getItem('img') && <img src={localStorage.getItem('img') as string} />}
         </div>
-        <fieldset className="form__item">
-          <legend className="form__legend"> Gender </legend>
-          <p>
-            <input type={'radio'} name="gender" id="male" ref={this.maleRef} />
-            <label htmlFor="male"> Male </label>
-          </p>
-          <p>
-            <input type={'radio'} name="gender" id="female" ref={this.femaleRef} />
-            <label htmlFor="female"> Female </label>
-          </p>
-          <p>
-            <input type={'radio'} name="gender" id="unknown" ref={this.unknownGenderRef} />
-            <label htmlFor="unknown"> Prefer not to say </label>
-          </p>
-          <label htmlFor="file" className="form__error-label">
-            !
-          </label>
-        </fieldset>
         <div className="form__item">
-          <label htmlFor="file"> User photo</label>
-          <input name="file" type={'file'} />
+          <fieldset className="form__fieldset">
+            <legend className="form__legend"> Gender </legend>
+            <p>
+              <input type={'radio'} name="gender" id="male" ref={this.ref.maleRef} />
+              <label htmlFor="male"> Male </label>
+            </p>
+            <p>
+              <input type={'radio'} name="gender" id="female" ref={this.ref.femaleRef} />
+              <label htmlFor="female"> Female </label>
+            </p>
+            <p>
+              <input type={'radio'} name="gender" id="unknown" ref={this.ref.unknownGenderRef} />
+              <label htmlFor="unknown"> Prefer not to say </label>
+            </p>
+            <label htmlFor="unknown" className="form__error-label">
+              {this.state.gender && 'make your choice'}
+            </label>
+          </fieldset>
+        </div>
+        <div className="form__item">
+          <label htmlFor="file"> User photo (.png)</label>
+          <input name="file" type={'file'} ref={this.ref.imgRef} />
           <label htmlFor="file" className="form__error-label">
-            !
+            {this.state.img && 'provide image in .png format'}
+          </label>
+          <p>
+            <input id="agreement" ref={this.ref.agreementRef} type={'checkbox'} />
+            <label htmlFor="agreement">
+              {' '}
+              I hereby consent to the processing of the personal data that I have provided{' '}
+            </label>
+          </p>
+          <label htmlFor="agreement" className="form__error-label">
+            {this.state.agreement && 'this field is required'}
           </label>
         </div>
         <p>

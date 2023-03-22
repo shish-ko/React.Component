@@ -173,6 +173,7 @@ main{
   padding: 20px;
 }
 
+.form__fieldset,
 .form__text-input {
   height: 25px;
   width: 90%;
@@ -180,6 +181,10 @@ main{
   padding-left: 5px;
   border-radius: 4px;
   border: 1px solid;
+}
+
+.form__fieldset {
+  height: fit-content;
 }
 
 .form__item {
@@ -206,4 +211,21 @@ main{
 fieldset.form__item {
   padding: 5px;
   border-radius: 3px;
+}
+select{
+  background-color: #ffffff;
+}
+
+.acc {
+  width: 200px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.acc__img {
+  width: 100%;
+}
+
+.acc__subtitle {
+  margin-top: 5px;
 }

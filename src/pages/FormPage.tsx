@@ -1,10 +1,11 @@
 import PageElement from '../components/PageElement';
 import React from 'react';
-import { IFormCard } from 'interfaces';
+import { IAccountCard } from 'interfaces';
 import { Form } from '../components/Form';
+import { Account } from '../components/Account';
 
 interface IFormState {
-  formItems: IFormCard[];
+  formItems: IAccountCard[];
 }
 
 export class FormPage extends PageElement {
@@ -14,7 +15,7 @@ export class FormPage extends PageElement {
   state: IFormState = {
     formItems: [],
   };
-  formHandler = (item: IFormCard) => {
+  formHandler = (item: IAccountCard) => {
     this.setState({ formItems: [...this.state.formItems, item] });
   };
 
@@ -22,6 +23,9 @@ export class FormPage extends PageElement {
     return (
       <div className="form-page">
         <Form formHandler={this.formHandler} />
+        {this.state.formItems.map((item, index) => (
+          <Account acc={item} key={index} />
+        ))}
       </div>
     );
   }
