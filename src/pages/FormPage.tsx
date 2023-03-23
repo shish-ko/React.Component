@@ -2,7 +2,7 @@ import PageElement from '../components/PageElement';
 import React from 'react';
 import { IAccountCard } from 'interfaces';
 import { Form } from '../components/Form';
-import { Account } from '../components/Account';
+import { AccountList } from '../components/AccountList';
 
 interface IFormState {
   formItems: IAccountCard[];
@@ -23,9 +23,7 @@ export class FormPage extends PageElement {
     return (
       <div className="form-page">
         <Form formHandler={this.formHandler} />
-        {this.state.formItems.map((item, index) => (
-          <Account acc={item} key={index} />
-        ))}
+        <AccountList accList={this.state.formItems} />
       </div>
     );
   }

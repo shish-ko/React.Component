@@ -1,7 +1,14 @@
 import { TEN_YEARS } from '../data/constants';
 import { IAccountCard, IFormRefs, IFormState } from 'interfaces';
 
-type NominalSetState = React.Dispatch<React.SetStateAction<IFormState>>;
+type NominalSetState = React.Dispatch<
+  React.SetStateAction<
+    Pick<
+      IFormState,
+      'address' | 'agreement' | 'birthDate' | 'img' | 'name' | 'shippingMethod' | 'title'
+    >
+  >
+>;
 
 export const validator = (setter: NominalSetState, refs: IFormRefs): false | IAccountCard => {
   const {
@@ -10,9 +17,9 @@ export const validator = (setter: NominalSetState, refs: IFormRefs): false | IAc
     birthDateRef,
     shippingMethodRef,
     agreementRef,
-    maleRef,
-    femaleRef,
-    unknownGenderRef,
+    mrRef,
+    msRef,
+    unknownTitleRef,
     imgRef,
   } = refs;
   const validatedState = {
@@ -20,7 +27,7 @@ export const validator = (setter: NominalSetState, refs: IFormRefs): false | IAc
     address: false,
     img: false,
     birthDate: false,
-    gender: false,
+    title: false,
     agreement: false,
     shippingMethod: false,
   };
@@ -28,19 +35,26 @@ export const validator = (setter: NominalSetState, refs: IFormRefs): false | IAc
     name: nameRef.current!.value,
     address: addressRef.current!.value,
     img: '',
-    birthDate: birthDateRef.current!.value,
-    gender: '',
+    birthDate: birthDateRef.current!.valueAsNumber,
+    title: '',
     shippingMethod: shippingMethodRef.current!.value,
+    key: Date.now(),
   };
-  if (nameRef.current!.value.length < 3) {
+  if (nameRef.current!.value.trim().length < 3) {
     validatedState.name = true;
   }
-  if (!addressRef.current!.value.split(' ').some((item) => item.length >= 3)) {
+  if (
+    !addressRef
+      .current!.value.trim()
+      .split(' ')
+      .some((item) => item.length >= 3) ||
+    addressRef.current!.value.trim().split(' ').length < 3
+  ) {
     validatedState.address = true;
   }
   if (
     !birthDateRef.current!.value ||
-    Date.now() - new Date(birthDateRef.current!.value).getTime() < TEN_YEARS
+    Date.now() - birthDateRef.current!.valueAsNumber < TEN_YEARS
   ) {
     validatedState.birthDate = true;
   }
@@ -55,12 +69,11 @@ export const validator = (setter: NominalSetState, refs: IFormRefs): false | IAc
   } else {
     formCard.img = URL.createObjectURL(imgRef.current!.files[0]);
   }
-  const gender = [maleRef, femaleRef, unknownGenderRef].find((item) => item.current?.checked)
-    ?.current?.id;
-  if (!gender) {
-    validatedState.gender = true;
+  const title = [mrRef, msRef, unknownTitleRef].find((item) => item.current?.checked)?.current?.id;
+  if (!title) {
+    validatedState.title = true;
   } else {
-    formCard.gender = gender;
+    formCard.title = title;
   }
   setter(validatedState);
   if (Object.values(validatedState).some((item) => item)) return false;

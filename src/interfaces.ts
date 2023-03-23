@@ -15,10 +15,11 @@ export interface ICard {
 export interface IAccountCard {
   name: string;
   address: string;
-  birthDate: string;
+  birthDate: number;
   img: string;
   shippingMethod: 'dhl' | 'usps' | 'pick up';
-  gender: 'male' | 'female' | 'unknown';
+  title: 'Mr' | 'Ms' | 'unknown';
+  key: string;
 }
 
 export interface PageElProps {
@@ -31,8 +32,9 @@ export interface IFormState {
   birthDate: boolean;
   shippingMethod: boolean;
   agreement: boolean;
-  gender: boolean;
+  title: boolean;
   img: boolean;
+  isPopUpShown: boolean;
 }
 
 export interface IFormRefs {
@@ -41,8 +43,9 @@ export interface IFormRefs {
   birthDateRef: React.RefObject<HTMLInputElement>;
   shippingMethodRef: React.RefObject<HTMLSelectElement>;
   agreementRef: React.RefObject<HTMLInputElement>;
-  maleRef: React.RefObject<HTMLInputElement>;
-  femaleRef: React.RefObject<HTMLInputElement>;
-  unknownGenderRef: React.RefObject<HTMLInputElement>;
+  mrRef: React.RefObject<HTMLInputElement>;
+  msRef: React.RefObject<HTMLInputElement>;
+  unknownTitleRef: React.RefObject<HTMLInputElement>;
   imgRef: React.RefObject<HTMLInputElement>;
+  formRef: React.RefObject<HTMLFormElement>;
 }

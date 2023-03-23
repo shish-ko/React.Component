@@ -216,10 +216,26 @@ select{
   background-color: #ffffff;
 }
 
+.acc-container {
+  margin-top: 15px;
+}
+
+.acc-container__title {
+  text-align: center;
+  font-size: 2rem;
+}
+.acc-container__body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(100% / 15)
+}
+
 .acc {
-  width: 200px;
+  width: calc(100% / 5);
   padding: 10px;
   overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  margin-top: 20px;
 }
 
 .acc__img {
@@ -228,4 +244,24 @@ select{
 
 .acc__subtitle {
   margin-top: 5px;
+}
+
+.acc__delete-btn{
+  margin: 7px auto;
+  display: block;
+}
+
+.pop-up {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  transform: translateX(100%);
+  background-color: rgb(255 255 255 / 70%);
+  padding: 15px;
+  box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
+  transition: transform 500ms ease-in-out;
+}
+
+.pop-up_active {
+  transform: translateX(-50%);
 }
