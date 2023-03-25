@@ -236,6 +236,16 @@ select{
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   margin-top: 20px;
+  cursor: pointer;
+  transition: transform 100ms ease-out;
+}
+
+.acc:hover {
+  transform: scale(1.05);
+}
+
+.acc_active {
+  box-shadow: #535bf2 0px 1px 4px;
 }
 
 .acc__img {

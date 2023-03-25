@@ -32,6 +32,7 @@ export class Form extends React.Component<IFormProps, IFormState> {
     unknownTitleRef: React.createRef(),
     imgRef: React.createRef(),
     formRef: React.createRef(),
+    saveRef: React.createRef(),
   };
 
   handler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -133,6 +134,10 @@ export class Form extends React.Component<IFormProps, IFormState> {
           <label htmlFor="agreement" className="form__error-label" data-testid="error">
             {this.state.agreement && 'this field is required'}
           </label>
+          <p>
+            <input id="save" ref={this.ref.saveRef} type={'checkbox'} />
+            <label htmlFor="save"> Enable after reset(extra feature)</label>
+          </p>
         </div>
         <p>
           <button>Create account</button>

@@ -3,13 +3,26 @@ import React from 'react';
 
 interface IAccountProps {
   acc: IAccountCard;
+  deleteHandler(id: string): void;
+  pickedHandler(): void;
+  accStyle: string;
 }
-export const Account: React.FC<IAccountProps> = ({ acc }) => {
+export const Account: React.FC<IAccountProps> = ({
+  acc,
+  deleteHandler,
+  pickedHandler,
+  accStyle,
+}) => {
+  const deleteAcc = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    deleteHandler(acc.key);
+  };
+
   const getAge = (birthDate: number) => {
     return Math.floor((Date.now() - birthDate) / 31556952000);
   };
   return (
-    <div className="accounts__item acc">
+    <div className={accStyle} onClick={pickedHandler}>
       <img src={acc.img} className="acc__img" />
       <p className="acc__title">
         {acc.title !== 'unknown' && acc.title + '.'} {acc.name}
@@ -19,7 +32,9 @@ export const Account: React.FC<IAccountProps> = ({ acc }) => {
       </p>
       <p className="acc__subtitle">{getAge(acc.birthDate)} years old</p>
       <p className="acc__subtitle">Shipping: {acc.shippingMethod}</p>
-      <button className="acc__delete-btn">Delete acc</button>
+      <button onClick={deleteAcc} className="acc__delete-btn">
+        Delete acc
+      </button>
     </div>
   );
 };

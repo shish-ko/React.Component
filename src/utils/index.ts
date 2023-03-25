@@ -21,6 +21,7 @@ export const validator = (setter: NominalSetState, refs: IFormRefs): false | IAc
     msRef,
     unknownTitleRef,
     imgRef,
+    saveRef,
   } = refs;
   const validatedState = {
     name: false,
@@ -31,14 +32,14 @@ export const validator = (setter: NominalSetState, refs: IFormRefs): false | IAc
     agreement: false,
     shippingMethod: false,
   };
-  const formCard = {
+  const formCard: IAccountCard = {
     name: nameRef.current!.value,
     address: addressRef.current!.value,
     img: '',
     birthDate: birthDateRef.current!.valueAsNumber,
     title: '',
     shippingMethod: shippingMethodRef.current!.value,
-    key: Date.now(),
+    key: Date.now().toString(),
   };
   if (nameRef.current!.value.trim().length < 3) {
     validatedState.name = true;
@@ -77,5 +78,34 @@ export const validator = (setter: NominalSetState, refs: IFormRefs): false | IAc
   }
   setter(validatedState);
   if (Object.values(validatedState).some((item) => item)) return false;
-  return formCard as unknown as IAccountCard;
+  if (saveRef.current!.checked && imgRef.current!.files) {
+    saveAccToLS(formCard, imgRef.current!.files[0]);
+  }
+  return formCard;
 };
+
+function saveAccToLS(accCard: IAccountCard, file: File) {
+  const accSlice: IAccountCard = Object.assign(accCard);
+  const fr = new FileReader();
+  fr.addEventListener('load', (e) => {
+    accSlice.img = e.target?.result as string;
+    const lsAccounts = localStorage.getItem('accounts');
+    if (lsAccounts) {
+      const accountsArr: IAccountCard[] = JSON.parse(lsAccounts);
+      accountsArr.push(accSlice);
+      localStorage.setItem('accounts', JSON.stringify(accountsArr));
+    } else {
+      localStorage.setItem('accounts', JSON.stringify([accSlice]));
+    }
+  });
+  fr.readAsDataURL(file);
+}
+
+export function delAccFromLS(key: string) {
+  const lsAccounts = localStorage.getItem('accounts');
+  if (lsAccounts) {
+    let accountsArr: IAccountCard[] = JSON.parse(lsAccounts);
+    accountsArr = accountsArr.filter((item) => item.key !== key);
+    localStorage.setItem('accounts', JSON.stringify(accountsArr));
+  }
+}

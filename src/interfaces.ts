@@ -17,8 +17,8 @@ export interface IAccountCard {
   address: string;
   birthDate: number;
   img: string;
-  shippingMethod: 'dhl' | 'usps' | 'pick up';
-  title: 'Mr' | 'Ms' | 'unknown';
+  shippingMethod: string;
+  title: string;
   key: string;
 }
 
@@ -48,4 +48,5 @@ export interface IFormRefs {
   unknownTitleRef: React.RefObject<HTMLInputElement>;
   imgRef: React.RefObject<HTMLInputElement>;
   formRef: React.RefObject<HTMLFormElement>;
+  saveRef: React.RefObject<HTMLInputElement>;
 }

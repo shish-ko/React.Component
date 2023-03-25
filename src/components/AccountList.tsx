@@ -2,10 +2,24 @@ import { IAccountCard } from 'interfaces';
 import React from 'react';
 import { Account } from './Account';
 
-interface IAccountListProps {
+type IAccountListProps = React.HTMLAttributes<HTMLDivElement> & {
   accList: IAccountCard[];
-}
-export class AccountList extends React.Component<IAccountListProps> {
+  deleteHandler(id: string): void;
+};
+type IAccListState = {
+  pickedAcc: string;
+};
+
+export class AccountList extends React.Component<IAccountListProps, IAccListState> {
+  constructor(props: IAccountListProps) {
+    super(props);
+    this.state = {
+      pickedAcc: this.props.accList[0]?.key,
+    };
+  }
+  pickedHandler = (id: string) => {
+    this.setState({ pickedAcc: id });
+  };
   render() {
     return (
       <section className="acc-container">
@@ -14,7 +28,13 @@ export class AccountList extends React.Component<IAccountListProps> {
         </h2>
         <div className="acc-container__body">
           {this.props.accList.map((item) => (
-            <Account acc={item} key={item.key} />
+            <Account
+              deleteHandler={this.props.deleteHandler}
+              acc={item}
+              key={item.key}
+              pickedHandler={() => this.pickedHandler(item.key)}
+              accStyle={this.state.pickedAcc === item.key ? 'acc acc_active' : 'acc'}
+            />
           ))}
         </div>
       </section>
