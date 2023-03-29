@@ -1,34 +1,28 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 
-interface SearchState {
-  searchValue: string;
-}
-
-export class Search extends React.Component<unknown, SearchState> {
-  componentDidMount(): void {
-    localStorage.searchValue &&
-      this.setState({ searchValue: localStorage.getItem('searchValue') as string });
-  }
-  componentWillUnmount(): void {
-    localStorage.setItem('searchValue', this.state.searchValue);
-  }
-  state = {
-    searchValue: '',
+export const Search: React.FC = () => {
+  const [searchValue, setSearchValue] = useState('');
+  const searchInput = useRef<HTMLInputElement>(null);
+  const handler = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
   };
-  handler = (e: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchValue: e.target.value });
-  };
-  render() {
-    return (
-      <div className="search">
-        <input
-          value={this.state.searchValue}
-          onChange={this.handler}
-          placeholder="Search"
-          className="search__input"
-        />
-        <img src="./assets/search-icon.png" className="search__input-logo"></img>
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    const input = searchInput.current;
+    localStorage.searchValue && setSearchValue(localStorage.getItem('searchValue') as string);
+    return () => {
+      localStorage.setItem('searchValue', input!.value);
+    };
+  }, []);
+  return (
+    <div className="search">
+      <input
+        ref={searchInput}
+        value={searchValue}
+        onChange={handler}
+        placeholder="Search"
+        className="search__input"
+      />
+      <img src="./assets/search-icon.png" className="search__input-logo"></img>
+    </div>
+  );
+};

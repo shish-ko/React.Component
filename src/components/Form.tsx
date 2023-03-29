@@ -1,151 +1,167 @@
-import { IAccountCard, IFormRefs, IFormState } from 'interfaces';
-import React from 'react';
-import { validator } from '../utils';
+import { IAccountCard } from 'interfaces';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { isAddressValid, isBirthDateValid, isImageValid, saveAccToLS } from '../utils';
 import { PopUp } from './PopUp';
 
+// type ErrorValues = {
+//   [x: string]: { message?: string };
+// };
 type IFormProps = React.HTMLAttributes<HTMLDivElement> & {
   formHandler(item: IAccountCard): void;
 };
+type IFormNames = IAccountCard & { agreement: boolean; save: boolean };
 
-export class Form extends React.Component<IFormProps, IFormState> {
-  constructor(props: IFormProps) {
-    super(props);
-    this.state = {
-      address: false,
-      name: false,
-      birthDate: false,
-      shippingMethod: false,
-      agreement: false,
-      title: false,
-      img: false,
-      isPopUpShown: false,
-    };
-  }
-  ref: IFormRefs = {
-    nameRef: React.createRef(),
-    addressRef: React.createRef(),
-    birthDateRef: React.createRef(),
-    shippingMethodRef: React.createRef(),
-    agreementRef: React.createRef(),
-    mrRef: React.createRef(),
-    msRef: React.createRef(),
-    unknownTitleRef: React.createRef(),
-    imgRef: React.createRef(),
-    formRef: React.createRef(),
-    saveRef: React.createRef(),
+export const Form: React.FC<IFormProps> = ({ formHandler }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<IFormNames>({ reValidateMode: 'onSubmit' });
+
+  const [isPopUpShown, setIsPopUpShown] = useState(false);
+
+  const handler = (data: IFormNames) => {
+    data.key = new Date().toString();
+    if (data.save) saveAccToLS(data);
+    data.img = URL.createObjectURL(data.img[0] as File);
+    formHandler(data);
+    setIsPopUpShown(true);
+    setTimeout(() => setIsPopUpShown(false), 1000);
+    reset();
   };
 
-  handler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const res = validator(this.setState.bind(this), this.ref);
-    if (res) {
-      this.props.formHandler(res);
-      this.ref.formRef.current?.reset();
-      this.setState({ isPopUpShown: true });
-      setTimeout(() => this.setState({ isPopUpShown: false }), 1000);
-    }
-  };
-
-  render() {
-    return (
-      <form className="form" method="post" onSubmit={this.handler} ref={this.ref.formRef}>
-        <div className="form__item">
-          <label htmlFor="name" className="form__label">
-            Surname
-          </label>
-          <input ref={this.ref.nameRef} className="form__text-input" id="name" />
-          <label htmlFor="name" className="form__error-label" data-testid="error">
-            {this.state.name && 'name should be at least 3 characters long'}
-          </label>
-        </div>
-        <div className="form__item">
-          <label htmlFor="address"> Address </label>
-          <input
-            ref={this.ref.addressRef}
-            className="form__text-input"
-            id="address"
-            name="address"
-          />
-          <label htmlFor="address" className="form__error-label" data-testid="error">
-            {this.state.address &&
-              'address should be at least 3 words long with one longer than 3 char'}
-          </label>
-        </div>
-        <div className="form__item">
-          <label htmlFor="birthDate"> Date-of-birth</label>
-          <input
-            id="birthDate"
-            ref={this.ref.birthDateRef}
-            className="form__text-input"
-            type={'date'}
-            max={new Date().toISOString().split('T')[0]}
-          />
-          <label htmlFor="birthDate" className="form__error-label" data-testid="error">
-            {this.state.birthDate && 'you should be older than 10 years to make an order'}
-          </label>
-        </div>
-        <div className="form__item">
-          <label htmlFor="shippingMethod"> Shipping method</label>
-          <select className="form__text-input" ref={this.ref.shippingMethodRef} id="shippingMethod">
-            <option value="" hidden>
-              Choose one
-            </option>
-            <option value="pick up">Pick up</option>
-            <option value="usps">USPS</option>
-            <option value="dhl">DHL</option>
-          </select>
-          <label htmlFor="shippingMethod" className="form__error-label" data-testid="error">
-            {this.state.shippingMethod && 'make your choice!'}
-          </label>
-        </div>
-        <div className="form__item">
-          <fieldset className="form__fieldset">
-            <legend className="form__legend"> Title </legend>
-            <p>
-              <input type={'radio'} name="title" id="Mr" ref={this.ref.mrRef} />
-              <label htmlFor="Mr"> Mr </label>
-            </p>
-            <p>
-              <input type={'radio'} name="title" id="Ms" ref={this.ref.msRef} />
-              <label htmlFor="Ms"> Ms </label>
-            </p>
-            <p>
-              <input type={'radio'} name="title" id="unknown" ref={this.ref.unknownTitleRef} />
-              <label htmlFor="unknown"> Prefer not to say </label>
-            </p>
-            <label htmlFor="unknown" className="form__error-label" data-testid="error">
-              {this.state.title && 'make your choice'}
-            </label>
-          </fieldset>
-        </div>
-        <div className="form__item">
-          <label htmlFor="file"> User photo (.png)</label>
-          <input id="file" type={'file'} ref={this.ref.imgRef} />
-          <label htmlFor="file" className="form__error-label" data-testid="error">
-            {this.state.img && 'provide image in .png format'}
-          </label>
+  return (
+    <form className="form" method="post" onSubmit={handleSubmit(handler)}>
+      <div className="form__item">
+        <label htmlFor="name" className="form__label">
+          Surname
+        </label>
+        <input
+          {...register('name', {
+            minLength: 3,
+            required: true,
+            setValueAs: (value: string) => value.trim(),
+          })}
+          id="name"
+          className="form__text-input"
+        />
+        <label htmlFor="name" className="form__error-label" data-testid="error">
+          {errors.name && 'name should be at least 3 characters long'}
+        </label>
+      </div>
+      <div className="form__item">
+        <label htmlFor="address"> Address </label>
+        <input
+          {...register('address', {
+            required: 'address should be at least 3 words long with one longer than 3 char',
+            validate: isAddressValid,
+          })}
+          className="form__text-input"
+          id="address"
+        />
+        <label htmlFor="address" className="form__error-label" data-testid="error">
+          {errors.address && errors.address.message?.toString()}
+        </label>
+      </div>
+      <div className="form__item">
+        <label htmlFor="birthDate"> Date-of-birth</label>
+        <input
+          id="birthDate"
+          {...register('birthDate', {
+            required: 'you should be older than 10 years to make an order',
+            validate: isBirthDateValid,
+          })}
+          className="form__text-input"
+          type={'date'}
+          max={new Date().toISOString().split('T')[0]}
+        />
+        <label htmlFor="birthDate" className="form__error-label" data-testid="error">
+          {errors.birthDate && errors.birthDate.message?.toString()}
+        </label>
+      </div>
+      <div className="form__item">
+        <label htmlFor="shippingMethod"> Shipping method</label>
+        <select
+          className="form__text-input"
+          {...register('shippingMethod', { required: 'make your choice!' })}
+          id="shippingMethod"
+        >
+          <option value="" hidden>
+            Choose one
+          </option>
+          <option value="pick up">Pick up</option>
+          <option value="usps">USPS</option>
+          <option value="dhl">DHL</option>
+        </select>
+        <label htmlFor="shippingMethod" className="form__error-label" data-testid="error">
+          {errors.shippingMethod && errors.shippingMethod.message?.toString()}
+        </label>
+      </div>
+      <div className="form__item">
+        <fieldset className="form__fieldset">
+          <legend className="form__legend"> Title </legend>
           <p>
-            <input id="agreement" ref={this.ref.agreementRef} type={'checkbox'} />
-            <label htmlFor="agreement">
-              {' '}
-              I hereby consent to the processing of the personal data that I have provided{' '}
-            </label>
+            <input
+              type={'radio'}
+              id="Mr"
+              value="Mr"
+              {...register('title', { required: 'make your choice' })}
+            />
+            <label htmlFor="Mr"> Mr </label>
           </p>
-          <label htmlFor="agreement" className="form__error-label" data-testid="error">
-            {this.state.agreement && 'this field is required'}
-          </label>
           <p>
-            <input id="save" ref={this.ref.saveRef} type={'checkbox'} />
-            <label htmlFor="save"> Enable after reset(extra feature)</label>
+            <input type={'radio'} id="Ms" {...register('title')} value="Ms" />
+            <label htmlFor="Ms"> Ms </label>
           </p>
-        </div>
+          <p>
+            <input type={'radio'} id="unknown" {...register('title')} value="unknown" />
+            <label htmlFor="unknown"> Prefer not to say </label>
+          </p>
+          <label htmlFor="unknown" className="form__error-label" data-testid="error">
+            {errors.title && errors.title.message?.toString()}
+          </label>
+        </fieldset>
+      </div>
+      <div className="form__item">
+        <label htmlFor="img"> User photo (.png)</label>
+        <input
+          id="img"
+          type={'file'}
+          {...register('img', {
+            required: 'provide image in .png format',
+            validate: (data) => isImageValid(data as File[]),
+          })}
+        />
+        <label htmlFor="img" className="form__error-label" data-testid="error">
+          {errors.img && 'provide image in .png format'}
+        </label>
         <p>
-          <button>Create account</button>
+          <input
+            id="agreement"
+            {...register('agreement', { required: 'this field is required' })}
+            type={'checkbox'}
+          />
+          <label htmlFor="agreement">
+            {' '}
+            I hereby consent to the processing of the personal data that I have provided{' '}
+          </label>
         </p>
-        <PopUp isActive={this.state.isPopUpShown}>
-          <h2>Account was successfully created</h2>
-        </PopUp>
-      </form>
-    );
-  }
-}
+        <label htmlFor="agreement" className="form__error-label" data-testid="error">
+          {errors.agreement && errors.agreement.message?.toString()}
+        </label>
+        <p>
+          <input id="save" {...register('save')} type={'checkbox'} />
+          <label htmlFor="save"> Enable after reset(extra feature)</label>
+        </p>
+      </div>
+      <p>
+        <button>Create account</button>
+      </p>
+      <PopUp isActive={isPopUpShown}>
+        <h2>Account was successfully created</h2>
+      </PopUp>
+    </form>
+  );
+};

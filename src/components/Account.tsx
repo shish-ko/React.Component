@@ -1,5 +1,6 @@
 import { IAccountCard } from '../interfaces';
 import React from 'react';
+import { getAge } from '../utils';
 
 interface IAccountProps {
   acc: IAccountCard;
@@ -18,12 +19,9 @@ export const Account: React.FC<IAccountProps> = ({
     deleteHandler(acc.key);
   };
 
-  const getAge = (birthDate: number) => {
-    return Math.floor((Date.now() - birthDate) / 31556952000);
-  };
   return (
     <div className={accStyle} onClick={pickedHandler}>
-      <img src={acc.img} className="acc__img" />
+      <img src={acc.img as string} className="acc__img" />
       <p className="acc__title">
         {acc.title !== 'unknown' && acc.title + '.'} {acc.name}
       </p>
