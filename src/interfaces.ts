@@ -22,8 +22,4 @@ export interface IAccountCard {
   key: string;
 }
 
-export interface PageElProps {
-  titleHandler: (pageTitle: string) => void;
-}
-
 export type IFormNames = IAccountCard & { agreement: boolean; save: boolean };

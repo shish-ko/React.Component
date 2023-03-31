@@ -4,11 +4,11 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { FormPage } from '../pages/FormPage';
 import { FAIL_ADDRESSES, FAIL_NAMES, TEST_ADDRESS, TEST_NAME } from '../data/test-data';
-import { Form } from '../components/Form';
+import { CreateAccForm } from '../components/Form';
 
 const resetForm = () => {
   const mockFunc = jest.fn();
-  render(<Form formHandler={mockFunc} />);
+  render(<CreateAccForm formHandler={mockFunc} />);
 };
 
 describe('Form', () => {
@@ -67,7 +67,7 @@ describe('Correctly completed form', () => {
     const mockFunc = jest.fn();
     URL.createObjectURL = mockFunc;
     const pngFile = new File([new Blob()], 'fakeImage', { type: 'image/png' });
-    render(<FormPage titleHandler={mockFunc} />);
+    render(<FormPage />);
     fireEvent.change(screen.getByLabelText(/Surname/i), {
       target: { value: TEST_NAME },
     });

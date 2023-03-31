@@ -13,14 +13,13 @@ type IFormProps = React.HTMLAttributes<HTMLDivElement> & {
   formHandler(item: IAccountCard): void;
 };
 
-export const Form: React.FC<IFormProps> = ({ formHandler }) => {
+export const CreateAccForm: React.FC<IFormProps> = ({ formHandler }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<IFormNames>({ reValidateMode: 'onSubmit' });
-
   const [isPopUpShown, setIsPopUpShown] = useState(false);
 
   const handler = (data: IFormNames) => {

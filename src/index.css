@@ -275,3 +275,7 @@ select{
 .pop-up_active {
   transform: translateX(-50%);
 }
+
+.form-page_loading{
+  opacity: .5;
+}

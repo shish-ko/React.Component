@@ -1,20 +1,15 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
+import { nameCurrentPage } from '../utils';
 
-interface IndexProps {
-  currentPage: string;
-}
+const Index: React.FC = () => {
+  const { pathname } = useLocation();
 
-class Index extends React.Component<IndexProps> {
-  constructor(props: IndexProps) {
-    super(props);
-  }
-
-  render = () => (
+  return (
     <>
       <header className="header" data-testid="header">
         <div className="header__current" data-testid="current_page">
-          {this.props.currentPage}
+          {nameCurrentPage(pathname)}
         </div>
         <nav className="header__links">
           <Link to={'/'} className="header__link" data-testid="link_main">
@@ -33,6 +28,6 @@ class Index extends React.Component<IndexProps> {
       </main>
     </>
   );
-}
+};
 
 export default Index;

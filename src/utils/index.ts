@@ -49,3 +49,20 @@ export const isImageValid = (image: File[]) => {
 export const getAge = (birthDate: string) => {
   return Math.floor((Date.now() - new Date(birthDate).getTime()) / 31556952000);
 };
+
+export const nameCurrentPage = (pathname: string) => {
+  const trimmedPathname = pathname.replaceAll('/', '');
+  switch (trimmedPathname) {
+    case '':
+      return 'Main Page';
+      break;
+    case 'aboutus':
+      return 'About us';
+      break;
+    case 'form':
+      return 'Form Page';
+      break;
+    default:
+      return 'Error 404';
+  }
+};

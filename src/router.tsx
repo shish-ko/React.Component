@@ -10,33 +10,19 @@ import Index from './components/index';
 import { ErrorPage } from './pages/ErrorPage';
 import { MainPage } from './pages/MainPage';
 import { FormPage } from './pages/FormPage';
+const routers = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Index />}>
+      <Route index={true} element={<MainPage />} />
+      <Route path="aboutus/" element={<AboutUs />} />
+      <Route path="form/" element={<FormPage />} />
+      <Route path="*" element={<ErrorPage />} />
+    </Route>
+  )
+);
 
-interface RouterState {
-  currentPage: string;
-}
-class Router extends React.Component<unknown, RouterState> {
-  state: RouterState = {
-    currentPage: 'No',
-  };
-  handler = (pageTitle: string) => {
-    this.setState({ currentPage: pageTitle });
-  };
-  render() {
-    return (
-      <RouterProvider
-        router={createBrowserRouter(
-          createRoutesFromElements(
-            <Route path="/" element={<Index currentPage={this.state.currentPage} />}>
-              <Route index={true} element={<MainPage titleHandler={this.handler} />} />
-              <Route path="aboutus/" element={<AboutUs titleHandler={this.handler} />} />
-              <Route path="form/" element={<FormPage titleHandler={this.handler} />} />
-              <Route path="*" element={<ErrorPage titleHandler={this.handler} />} />
-            </Route>
-          )
-        )}
-      />
-    );
-  }
-}
+const Router: React.FC = () => {
+  return <RouterProvider router={routers} />;
+};
 
 export default Router;
