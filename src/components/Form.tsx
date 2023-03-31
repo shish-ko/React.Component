@@ -1,8 +1,10 @@
-import { IAccountCard } from 'interfaces';
+import { IAccountCard, IFormNames } from 'interfaces';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { isAddressValid, isBirthDateValid, isImageValid, saveAccToLS } from '../utils';
 import { PopUp } from './PopUp';
+import { InputSelect } from './UI/Input-select';
+import { InputText } from './UI/Input-text';
 
 // type ErrorValues = {
 //   [x: string]: { message?: string };
@@ -10,7 +12,6 @@ import { PopUp } from './PopUp';
 type IFormProps = React.HTMLAttributes<HTMLDivElement> & {
   formHandler(item: IAccountCard): void;
 };
-type IFormNames = IAccountCard & { agreement: boolean; save: boolean };
 
 export const Form: React.FC<IFormProps> = ({ formHandler }) => {
   const {
@@ -35,35 +36,26 @@ export const Form: React.FC<IFormProps> = ({ formHandler }) => {
   return (
     <form className="form" method="post" onSubmit={handleSubmit(handler)}>
       <div className="form__item">
-        <label htmlFor="name" className="form__label">
-          Surname
-        </label>
-        <input
-          {...register('name', {
-            minLength: 3,
-            required: true,
-            setValueAs: (value: string) => value.trim(),
-          })}
+        <InputText
           id="name"
-          className="form__text-input"
-        />
-        <label htmlFor="name" className="form__error-label" data-testid="error">
-          {errors.name && 'name should be at least 3 characters long'}
-        </label>
+          register={register}
+          errors={errors}
+          validation={(data) => data.length >= 3 || 'name should be at least 3 characters long'}
+          required="name should be at least 3 characters long"
+        >
+          Surname
+        </InputText>
       </div>
       <div className="form__item">
-        <label htmlFor="address"> Address </label>
-        <input
-          {...register('address', {
-            required: 'address should be at least 3 words long with one longer than 3 char',
-            validate: isAddressValid,
-          })}
-          className="form__text-input"
+        <InputText
           id="address"
-        />
-        <label htmlFor="address" className="form__error-label" data-testid="error">
-          {errors.address && errors.address.message?.toString()}
-        </label>
+          register={register}
+          errors={errors}
+          validation={isAddressValid}
+          required="address should be at least 3 words long with one longer than 3 char"
+        >
+          Address
+        </InputText>
       </div>
       <div className="form__item">
         <label htmlFor="birthDate"> Date-of-birth</label>
@@ -82,22 +74,15 @@ export const Form: React.FC<IFormProps> = ({ formHandler }) => {
         </label>
       </div>
       <div className="form__item">
-        <label htmlFor="shippingMethod"> Shipping method</label>
-        <select
-          className="form__text-input"
-          {...register('shippingMethod', { required: 'make your choice!' })}
+        <InputSelect
+          register={register}
           id="shippingMethod"
+          errors={errors}
+          required="make your choice!"
+          options={['Pick up', 'USPS', 'DHL']}
         >
-          <option value="" hidden>
-            Choose one
-          </option>
-          <option value="pick up">Pick up</option>
-          <option value="usps">USPS</option>
-          <option value="dhl">DHL</option>
-        </select>
-        <label htmlFor="shippingMethod" className="form__error-label" data-testid="error">
-          {errors.shippingMethod && errors.shippingMethod.message?.toString()}
-        </label>
+          Shipping method
+        </InputSelect>
       </div>
       <div className="form__item">
         <fieldset className="form__fieldset">

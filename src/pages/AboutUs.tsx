@@ -1,17 +1,18 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import PageElement from '../components/PageElement';
 
-class AboutUs extends PageElement {
-  componentDidMount(): void {
-    this.props.titleHandler('About us');
-  }
-  render = () => {
-    return (
-      <div className="App">
-        <div>Page is under maintain...</div>
-      </div>
-    );
-  };
-}
+const AboutUs: React.FC = () => {
+  // componentDidMount(): void {
+  //   this.props.titleHandler('About us');
+  // }
+  const location = useLocation();
+  console.log(location);
+  return (
+    <div className="App">
+      <div>Page is under maintain...</div>
+    </div>
+  );
+};
 
 export default AboutUs;
