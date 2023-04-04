@@ -8,12 +8,12 @@ import {
 } from 'react-router-dom';
 import Index from './components/index';
 import { ErrorPage } from './pages/ErrorPage';
-import { MainPage } from './pages/MainPage';
+import { MainPage, mainPageLoader } from './pages/MainPage';
 import { FormPage } from './pages/FormPage';
 const routers = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Index />}>
-      <Route index={true} element={<MainPage />} />
+      <Route index={true} loader={mainPageLoader} element={<MainPage />} />
       <Route path="aboutus/" element={<AboutUs />} />
       <Route path="form/" element={<FormPage />} />
       <Route path="*" element={<ErrorPage />} />

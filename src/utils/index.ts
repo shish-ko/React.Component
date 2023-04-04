@@ -1,5 +1,5 @@
 import { TEN_YEARS } from '../data/constants';
-import { IAccountCard } from 'interfaces';
+import { IAccountCard, Root } from 'interfaces';
 
 export function saveAccToLS(accCard: IAccountCard) {
   const accSlice: IAccountCard = Object.assign(accCard);
@@ -66,3 +66,14 @@ export const nameCurrentPage = (pathname: string) => {
       return 'Error 404';
   }
 };
+export async function getPhotos(tag: string | null) {
+  let requestURL;
+  if (tag) {
+    requestURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=7f186c5d957a329557c371dc86a52bd1&tags=${tag}&extras=url_m&format=json&nojsoncallback=1`;
+  } else {
+    requestURL = `https://www.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=7f186c5d957a329557c371dc86a52bd1&extras=url_m&format=json&nojsoncallback=1`;
+  }
+  const response = await fetch(requestURL);
+  const data: Root = await response.json();
+  return data.photos.photo;
+}

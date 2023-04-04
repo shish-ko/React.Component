@@ -1,9 +1,9 @@
-import { ICard } from 'interfaces';
+import { Photo } from 'interfaces';
 import React from 'react';
 import Card from './Card';
 
 interface CardListProps {
-  cards: ICard[];
+  cards: Photo[];
 }
 const CardList: React.FC<CardListProps> = ({ cards }) => {
   return (
