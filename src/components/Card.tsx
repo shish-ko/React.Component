@@ -1,18 +1,15 @@
-import { ICard, Photo } from 'interfaces';
+import { Photo } from 'interfaces';
 import React from 'react';
 
 interface CardProps {
   card: Photo;
+  modalHandler: (photoItem: Photo) => void;
 }
 
-const Card: React.FC<CardProps> = ({ card }) => {
+const Card: React.FC<CardProps> = ({ card, modalHandler }) => {
   return (
-    <div className="product">
-      <img src={card.url_m} className="product__image"></img>
-      <p className="product__stock">Title {card.title}</p>
-      <p className="product__brand">{card.owner}</p>
-      <p className="product__title">{card.secret}</p>
-      <p className="product__price">{card.ispublic}</p>
+    <div className="photo__item">
+      <img src={card.url_m} onClick={() => modalHandler(card)} className="photo__image"></img>
     </div>
   );
 };

@@ -10,7 +10,7 @@ import Index from './components/index';
 import { ErrorPage } from './pages/ErrorPage';
 import { MainPage, mainPageLoader } from './pages/MainPage';
 import { FormPage } from './pages/FormPage';
-const routers = createBrowserRouter(
+const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Index />}>
       <Route index={true} loader={mainPageLoader} element={<MainPage />} />
@@ -22,7 +22,7 @@ const routers = createBrowserRouter(
 );
 
 const Router: React.FC = () => {
-  return <RouterProvider router={routers} />;
+  return <RouterProvider router={router} />;
 };
 
 export default Router;

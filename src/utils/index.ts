@@ -68,10 +68,15 @@ export const nameCurrentPage = (pathname: string) => {
 };
 export async function getPhotos(tag: string | null) {
   let requestURL;
+  const savedValue = localStorage.getItem('searchValue');
   if (tag) {
-    requestURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=7f186c5d957a329557c371dc86a52bd1&tags=${tag}&extras=url_m&format=json&nojsoncallback=1`;
+    requestURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=7f186c5d957a329557c371dc86a52bd1&tags=${tag}&safe_search&extras=url_m&format=json&nojsoncallback=1`;
   } else {
-    requestURL = `https://www.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=7f186c5d957a329557c371dc86a52bd1&extras=url_m&format=json&nojsoncallback=1`;
+    if (savedValue) {
+      requestURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=7f186c5d957a329557c371dc86a52bd1&tags=${savedValue}&safe_search&extras=url_m&format=json&nojsoncallback=1`;
+    } else {
+      requestURL = `https://www.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=7f186c5d957a329557c371dc86a52bd1&extras=url_m&format=json&nojsoncallback=1`;
+    }
   }
   const response = await fetch(requestURL);
   const data: Root = await response.json();

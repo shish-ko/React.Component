@@ -1,6 +1,6 @@
 import { Photo, Root } from 'interfaces';
-import { useState } from 'react';
-type useFetchReturn = [(tag: string) => Promise<Photo[]>, boolean];
+import React, { useEffect, useState } from 'react';
+
 export function useFetch(): [boolean, (tag: string) => Promise<Photo[]>] {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -16,3 +16,20 @@ export function useFetch(): [boolean, (tag: string) => Promise<Photo[]>] {
 
   return [isLoaded, fetcher];
 }
+
+export const useCloseOnClickOutside = (
+  ref: React.RefObject<HTMLDivElement>,
+  actionHandler: () => void
+) => {
+  useEffect(() => {
+    function listener(e: MouseEvent) {
+      if (!ref.current?.contains(e.target as Node)) {
+        actionHandler();
+      }
+    }
+    document.addEventListener('mousedown', listener);
+    return () => {
+      document.removeEventListener('mousedown', listener);
+    };
+  }, []);
+};

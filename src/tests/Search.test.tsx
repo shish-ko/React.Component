@@ -2,31 +2,33 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { Search } from '../components/Search';
 import '@testing-library/jest-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 describe('Search', () => {
-  afterEach(() => {
+  const router = createBrowserRouter([{ path: '/', element: <Search /> }]);
+  beforeEach(() => {
     localStorage.clear();
   });
   it('should render input field', () => {
-    render(<Search />);
+    render(<RouterProvider router={router} />);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
   it('should render search logo', () => {
-    render(<Search />);
+    render(<RouterProvider router={router} />);
     expect(screen.getByRole('img')).toBeInTheDocument();
   });
   it('should get input value from LC', () => {
     localStorage.setItem('searchValue', 'Test LC');
-    render(<Search />);
+    render(<RouterProvider router={router} />);
     expect(screen.getByRole('textbox')).toHaveValue('Test LC');
   });
   it('should handle input text after unmount', () => {
-    const { unmount } = render(<Search />);
+    const { unmount } = render(<RouterProvider router={router} />);
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: 'Test' },
     });
     unmount();
-    render(<Search />);
+    render(<RouterProvider router={router} />);
     expect(screen.queryByRole('textbox')).toHaveValue('Test');
   });
 });
