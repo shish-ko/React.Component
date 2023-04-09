@@ -1,4 +1,4 @@
-import { IAccountCard, IFormNames } from 'interfaces';
+import { IAccountCard, IFormNames } from '../interfaces';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { isAddressValid, isBirthDateValid, isImageValid, saveAccToLS } from '../utils';

@@ -1,4 +1,4 @@
-import { IAccountCard } from 'interfaces';
+import { IAccountCard } from '../interfaces';
 import React, { useState } from 'react';
 import { Account } from './Account';
 

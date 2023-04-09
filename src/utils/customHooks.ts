@@ -1,20 +1,20 @@
-import { Photo, Root } from 'interfaces';
+import { IPhotoDataResp, PhotoData } from '../interfaces';
 import React, { useEffect, useState } from 'react';
 
-export function useFetch(): [boolean, (tag: string) => Promise<Photo[]>] {
-  const [isLoaded, setIsLoaded] = useState(false);
+export function usePhotoDataFetch(): [boolean, (id: string) => Promise<PhotoData>] {
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetcher = async (tag: string) => {
-    setIsLoaded(false);
+  const fetcher = async (id: string) => {
+    setIsLoading(true);
     const response = await fetch(
-      `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=7f186c5d957a329557c371dc86a52bd1&tags=${tag}&extras=url_m&format=json&nojsoncallback=1`
+      `https://www.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=7f186c5d957a329557c371dc86a52bd1&photo_id=${id}&format=json&nojsoncallback=1`
     );
-    const data: Root = await response.json();
-    setIsLoaded(true);
-    return data.photos.photo;
+    const data: IPhotoDataResp = await response.json();
+    setIsLoading(false);
+    return data.photo;
   };
 
-  return [isLoaded, fetcher];
+  return [isLoading, fetcher];
 }
 
 export const useCloseOnClickOutside = (
@@ -31,5 +31,5 @@ export const useCloseOnClickOutside = (
     return () => {
       document.removeEventListener('mousedown', listener);
     };
-  }, []);
+  });
 };

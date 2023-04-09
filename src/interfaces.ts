@@ -51,3 +51,73 @@ export interface Photo {
   height_m: number;
   width_m: number;
 }
+
+export interface IPhotoDataResp {
+  photo: PhotoData;
+  stat: string;
+}
+
+export interface PhotoData {
+  id: string;
+  secret: string;
+  server: string;
+  farm: number;
+  dateuploaded: string;
+  isfavorite: number;
+  license: string;
+  safety_level: string;
+  rotation: number;
+  originalsecret: string;
+  originalformat: string;
+  owner: Owner;
+  title: Title;
+  description: Description;
+  dates: Dates;
+  views: string;
+}
+
+interface Owner {
+  nsid: string;
+  username: string;
+  realname: string;
+  location: string;
+  iconserver: string;
+  iconfarm: number;
+}
+
+export interface Title {
+  _content: string;
+}
+
+export interface Description {
+  _content: string;
+}
+
+export interface Dates {
+  posted: string;
+  taken: string;
+  takengranularity: number;
+  takenunknown: string;
+  lastupdate: string;
+}
+
+export interface Editability {
+  cancomment: number;
+  canaddmeta: number;
+}
+
+export interface Publiceditability {
+  cancomment: number;
+  canaddmeta: number;
+}
+
+export interface Usage {
+  candownload: number;
+  canblog: number;
+  canprint: number;
+  canshare: number;
+}
+
+export interface Comments {
+  _content: string;
+}

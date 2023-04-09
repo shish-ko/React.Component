@@ -1,4 +1,4 @@
-import { Photo } from 'interfaces';
+import { Photo } from '../interfaces';
 import React from 'react';
 
 interface CardProps {

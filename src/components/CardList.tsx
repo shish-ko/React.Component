@@ -1,4 +1,4 @@
-import { Photo } from 'interfaces';
+import { Photo } from '../interfaces';
 import React, { useState } from 'react';
 import Card from './Card';
 import { Modal } from './Modal';
@@ -23,7 +23,7 @@ const CardList: React.FC<CardListProps> = ({ cards }) => {
       {cards.map((item) => (
         <Card modalHandler={openModal} card={item} key={item.id} />
       ))}
-      {isModalOpen && (
+      {isModalOpen && modalData && (
         <div className="modal-container">
           <Modal photoItem={modalData} closeHandler={closeModal} />
         </div>

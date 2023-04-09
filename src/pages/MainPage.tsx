@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Await, defer, LoaderFunctionArgs, useLoaderData, useNavigation } from 'react-router-dom';
+import { Photo } from 'src/interfaces';
 
 import CardList from '../components/CardList';
 import { Search } from '../components/Search';
-import { Photo } from 'interfaces';
 import { getPhotos } from '../utils';
 
 export async function mainPageLoader({ request }: LoaderFunctionArgs) {
@@ -21,11 +21,9 @@ export const MainPage: React.FC = () => {
     <>
       <Search />
       <React.Suspense fallback={<h1>loading ...</h1>}>
-        {state === 'idle' ? (
-          <Await resolve={photoData.data}>{(data) => <CardList cards={data.slice(0, 20)} />}</Await>
-        ) : (
-          <h1>loading...</h1>
-        )}
+        <Await resolve={photoData.data}>
+          {(data) => (state === 'idle' ? <CardList cards={data} /> : <h1>loading...</h1>)}
+        </Await>
       </React.Suspense>
     </>
   );

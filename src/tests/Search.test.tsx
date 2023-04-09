@@ -22,10 +22,14 @@ describe('Search', () => {
     render(<RouterProvider router={router} />);
     expect(screen.getByRole('textbox')).toHaveValue('Test LC');
   });
-  it('should handle input text after unmount', () => {
+  it('should save input value after submit', () => {
     const { unmount } = render(<RouterProvider router={router} />);
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: 'Test' },
+    });
+    fireEvent.submit(screen.getByTestId('search-form'));
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: { value: 'Another-Test' },
     });
     unmount();
     render(<RouterProvider router={router} />);

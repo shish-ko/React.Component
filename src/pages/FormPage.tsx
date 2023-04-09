@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IAccountCard } from 'interfaces';
+import { IAccountCard } from '../interfaces';
 import { CreateAccForm } from '../components/Form';
 import { AccountList } from '../components/AccountList';
 import { delAccFromLS } from '../utils';

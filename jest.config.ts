@@ -1,9 +1,9 @@
 export default {
   testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.(ts|tsx)$': 'ts-jest',
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
-  setupFilesAfterEnv: ['<rootDir>/setup-jest.js'],
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   collectCoverageFrom: ['**/src/components/**', '**/src/pages/**', '**/src/router.tsx'],
 };
