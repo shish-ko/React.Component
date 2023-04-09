@@ -20,6 +20,7 @@ const CardList: React.FC<CardListProps> = ({ cards }) => {
 
   return (
     <div className="products">
+      {!cards.length && <div style={{ margin: '0 auto' }}>No photos found</div>}
       {cards.map((item) => (
         <Card modalHandler={openModal} card={item} key={item.id} />
       ))}
