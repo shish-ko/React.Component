@@ -1,32 +1,32 @@
 import { IAccountCard, IFormNames } from '../interfaces';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { isAddressValid, isBirthDateValid, isImageValid, saveAccToLS } from '../utils';
+import { isAddressValid, isBirthDateValid, isImageValid } from '../utils';
 import { PopUp } from './PopUp';
 import { InputSelect } from './UI/Input-select';
 import { InputText } from './UI/Input-text';
+import { useDispatch } from 'react-redux';
+import { addAccount } from '../store/formSlice';
 
-// type ErrorValues = {
-//   [x: string]: { message?: string };
-// };
 type IFormProps = React.HTMLAttributes<HTMLDivElement> & {
   formHandler(item: IAccountCard): void;
 };
 
-export const CreateAccForm: React.FC<IFormProps> = ({ formHandler }) => {
+export const CreateAccForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<IFormNames>({ reValidateMode: 'onSubmit' });
+
+  const dispatch = useDispatch();
   const [isPopUpShown, setIsPopUpShown] = useState(false);
 
   const handler = (data: IFormNames) => {
-    data.key = new Date().toString();
-    if (data.save) saveAccToLS(data);
+    data.key = Date.now().toString();
     data.img = URL.createObjectURL(data.img[0] as File);
-    formHandler(data);
+    dispatch(addAccount(data));
     setIsPopUpShown(true);
     setTimeout(() => setIsPopUpShown(false), 1000);
     reset();
@@ -135,10 +135,6 @@ export const CreateAccForm: React.FC<IFormProps> = ({ formHandler }) => {
         <label htmlFor="agreement" className="form__error-label" data-testid="error">
           {errors.agreement && errors.agreement.message?.toString()}
         </label>
-        <p>
-          <input id="save" {...register('save')} type={'checkbox'} />
-          <label htmlFor="save"> Enable after reset(extra feature)</label>
-        </p>
       </div>
       <p>
         <button>Create account</button>

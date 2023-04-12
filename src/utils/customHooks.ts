@@ -1,5 +1,7 @@
 import { IPhotoDataResp, PhotoData } from '../interfaces';
 import React, { useEffect, useState } from 'react';
+import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 export function usePhotoDataFetch(): [boolean, (id: string) => Promise<PhotoData>] {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,3 +35,5 @@ export const useCloseOnClickOutside = (
     };
   });
 };
+
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

@@ -10,5 +10,10 @@ export const accountsSlice = createSlice({
     addAccount: (state, action: PayloadAction<IAccountCard>) => {
       state.push(action.payload);
     },
+    deleteAccount: (state, action: PayloadAction<string>) => {
+      return state.filter((i) => i.key !== action.payload);
+    },
   },
 });
+
+export const { addAccount, deleteAccount } = accountsSlice.actions;

@@ -1,13 +1,9 @@
-import { IAccountCard } from '../interfaces';
 import React, { useState } from 'react';
 import { Account } from './Account';
+import { useAppSelector } from '../utils/customHooks';
 
-type IAccountListProps = React.HTMLAttributes<HTMLDivElement> & {
-  accList: IAccountCard[];
-  deleteHandler(id: string): void;
-};
-
-export const AccountList: React.FC<IAccountListProps> = ({ accList, deleteHandler }) => {
+export const AccountList: React.FC = () => {
+  const accList = useAppSelector((state) => state.accounts);
   const [pickedAcc, setPickedAcc] = useState(accList[0]?.key);
 
   const pickedHandler = (id: string) => {
@@ -21,7 +17,6 @@ export const AccountList: React.FC<IAccountListProps> = ({ accList, deleteHandle
       <div className="acc-container__body">
         {accList.map((item) => (
           <Account
-            deleteHandler={deleteHandler}
             acc={item}
             key={item.key}
             pickedHandler={() => pickedHandler(item.key)}

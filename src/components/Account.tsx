@@ -1,22 +1,19 @@
 import { IAccountCard } from '../interfaces';
 import React from 'react';
 import { getAge } from '../utils';
+import { useDispatch } from 'react-redux';
+import { deleteAccount } from '../store/formSlice';
 
 interface IAccountProps {
   acc: IAccountCard;
-  deleteHandler(id: string): void;
   pickedHandler(): void;
   accStyle: string;
 }
-export const Account: React.FC<IAccountProps> = ({
-  acc,
-  deleteHandler,
-  pickedHandler,
-  accStyle,
-}) => {
+export const Account: React.FC<IAccountProps> = ({ acc, pickedHandler, accStyle }) => {
+  const dispatch = useDispatch();
   const deleteAcc = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation();
-    deleteHandler(acc.key);
+    dispatch(deleteAccount(acc.key));
   };
 
   return (

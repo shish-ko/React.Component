@@ -1,22 +1,32 @@
-import React, { useEffect, useRef } from 'react';
-import { Form } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setSearchValue } from '../store/searchSlice';
+import { useAppSelector } from '../utils/customHooks';
 
 export const Search: React.FC = () => {
-  const searchInput = useRef<HTMLInputElement>(null);
-  const submitHandler = () => {
-    localStorage.setItem('searchValue', searchInput.current!.value);
-  };
-  useEffect(() => {
-    const input = searchInput.current;
-    if (localStorage.searchValue) {
-      input!.value = localStorage.getItem('searchValue') as string;
-    }
-  }, []);
+  // const searchInput = useRef<HTMLInputElement>(null);
+  const searchValue = useAppSelector((state) => state.search.value);
+  const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState(searchValue);
 
   return (
-    <Form onSubmit={submitHandler} className="search" method="get" data-testid="search-form">
-      <input ref={searchInput} name="search" placeholder="Search" className="search__input" />
+    <form
+      className="search"
+      method="get"
+      data-testid="search-form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        dispatch(setSearchValue(inputValue));
+      }}
+    >
+      <input
+        name="search"
+        placeholder="Search"
+        className="search__input"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+      />
       <img src="./assets/search-icon.png" className="search__input-logo"></img>
-    </Form>
+    </form>
   );
 };
