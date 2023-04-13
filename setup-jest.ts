@@ -1,5 +1,3 @@
-// import { enableFetchMocks } from 'jest-fetch-mock';
-// enableFetchMocks();
 import 'whatwg-fetch';
 import { server } from './src/tests/API-mock/server';
 

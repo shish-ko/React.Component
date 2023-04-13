@@ -10,19 +10,20 @@ import Index from './components/index';
 import { ErrorPage } from './pages/ErrorPage';
 import { MainPage } from './pages/MainPage';
 import { FormPage } from './pages/FormPage';
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<Index />}>
-      <Route index={true} element={<MainPage />} />
-      <Route path="aboutus/" element={<AboutUs />} />
-      <Route path="form/" element={<FormPage />} />
-      <Route path="*" element={<ErrorPage />} />
-    </Route>
-  )
+
+export const appRouteObject = createRoutesFromElements(
+  <Route path="/" element={<Index />}>
+    <Route index={true} element={<MainPage />} />
+    <Route path="aboutus/" element={<AboutUs />} />
+    <Route path="form/" element={<FormPage />} />
+    <Route path="*" element={<ErrorPage />} />
+  </Route>
 );
 
+const appRouter = createBrowserRouter(appRouteObject);
+
 const Router: React.FC = () => {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={appRouter} />;
 };
 
 export default Router;

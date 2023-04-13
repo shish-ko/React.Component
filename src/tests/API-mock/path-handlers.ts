@@ -8,8 +8,8 @@ export const pathHandlers = [
   rest.get('*/rest/*', (req, res, ctx) => {
     const method = req.url.searchParams.get('method');
     const tag = req.url.searchParams.get('tags');
-    if (method === 'flickr.photos.getInfo') return res(ctx.status(300), ctx.json(PHOTO_DATA_RES));
-    if (tag === USER_SEARCH_VALUE) return res(ctx.status(300), ctx.json(API_SEARCH_RESPONSE));
-    return res(ctx.status(300), ctx.json(API_RESPONSE));
+    if (method === 'flickr.photos.getInfo') return res(ctx.status(200), ctx.json(PHOTO_DATA_RES));
+    if (tag === USER_SEARCH_VALUE) return res(ctx.status(200), ctx.json(API_SEARCH_RESPONSE));
+    return res(ctx.status(200), ctx.json(API_RESPONSE));
   }),
 ];

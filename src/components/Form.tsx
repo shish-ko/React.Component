@@ -1,4 +1,4 @@
-import { IAccountCard, IFormNames } from '../interfaces';
+import { IFormNames } from '../interfaces';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { isAddressValid, isBirthDateValid, isImageValid } from '../utils';
@@ -7,10 +7,6 @@ import { InputSelect } from './UI/Input-select';
 import { InputText } from './UI/Input-text';
 import { useDispatch } from 'react-redux';
 import { addAccount } from '../store/formSlice';
-
-type IFormProps = React.HTMLAttributes<HTMLDivElement> & {
-  formHandler(item: IAccountCard): void;
-};
 
 export const CreateAccForm: React.FC = () => {
   const {

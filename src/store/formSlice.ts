@@ -13,7 +13,10 @@ export const accountsSlice = createSlice({
     deleteAccount: (state, action: PayloadAction<string>) => {
       return state.filter((i) => i.key !== action.payload);
     },
+    clearAccountList: (state) => {
+      state.length = 0;
+    },
   },
 });
 
-export const { addAccount, deleteAccount } = accountsSlice.actions;
+export const { addAccount, deleteAccount, clearAccountList } = accountsSlice.actions;

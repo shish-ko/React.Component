@@ -5,10 +5,16 @@ import '@testing-library/jest-dom';
 import { FormPage } from '../pages/FormPage';
 import { FAIL_ADDRESSES, FAIL_NAMES, TEST_ADDRESS, TEST_NAME } from '../data/test-data';
 import { CreateAccForm } from '../components/Form';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
+import { clearAccountList } from '../store/formSlice';
 
 const resetForm = () => {
-  const mockFunc = jest.fn();
-  render(<CreateAccForm formHandler={mockFunc} />);
+  render(
+    <Provider store={store}>
+      <CreateAccForm />;
+    </Provider>
+  );
 };
 
 describe('Form', () => {
@@ -64,10 +70,15 @@ describe('Form', () => {
 
 describe('Correctly completed form', () => {
   beforeEach(async () => {
+    const pngFile = new File([new Blob()], 'fakeImage', { type: 'image/png' });
     const mockFunc = jest.fn();
     URL.createObjectURL = mockFunc;
-    const pngFile = new File([new Blob()], 'fakeImage', { type: 'image/png' });
-    render(<FormPage />);
+    store.dispatch(clearAccountList());
+    render(
+      <Provider store={store}>
+        <FormPage />;
+      </Provider>
+    );
     fireEvent.change(screen.getByLabelText(/Surname/i), {
       target: { value: TEST_NAME },
     });
