@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Root } from '../interfaces';
+import { IPhotoDataResp, Root } from '../interfaces';
 import { API_KEY } from '../data/constants';
 
 export const photoAPI = createApi({
@@ -17,6 +17,18 @@ export const photoAPI = createApi({
           format: 'json',
           nojsoncallback: '1',
           per_page: '20',
+        },
+      }),
+    }),
+    getPhotoData: builder.query<IPhotoDataResp, string>({
+      query: (photoId: string) => ({
+        url: 'services/rest/',
+        params: {
+          method: 'flickr.photos.getInfo',
+          api_key: API_KEY,
+          photo_id: photoId,
+          format: 'json',
+          nojsoncallback: '1',
         },
       }),
     }),

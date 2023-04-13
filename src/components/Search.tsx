@@ -4,7 +4,6 @@ import { setSearchValue } from '../store/searchSlice';
 import { useAppSelector } from '../utils/customHooks';
 
 export const Search: React.FC = () => {
-  // const searchInput = useRef<HTMLInputElement>(null);
   const searchValue = useAppSelector((state) => state.search.value);
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState(searchValue);

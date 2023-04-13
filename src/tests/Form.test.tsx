@@ -94,11 +94,13 @@ describe('Correctly completed form', () => {
     await userEvent.selectOptions(screen.getByLabelText(/shipping Method/i), 'DHL');
     await userEvent.click(screen.getByText('Create account'));
   });
+
   it('pass validation', () => {
     screen.queryAllByTestId('error').forEach((element) => {
       expect(element).toBeEmptyDOMElement();
     });
   });
+
   it('creates an account', () => {
     expect(screen.queryByText(`Address: ${TEST_ADDRESS}`)).toBeInTheDocument();
   });

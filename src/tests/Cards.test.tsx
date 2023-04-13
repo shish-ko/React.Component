@@ -22,32 +22,25 @@ describe('Card', () => {
 });
 
 describe('Main Page', () => {
-  it('should show loading message while fetching on first open', async () => {
+  beforeEach(() => {
     render(
       <Provider store={store}>
         <MainPage />
       </Provider>
     );
+  });
+
+  it('should show loading message while fetching on first open', async () => {
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
   });
 
   it('should render as much cards as received from API', async () => {
-    render(
-      <Provider store={store}>
-        <MainPage />
-      </Provider>
-    );
     await waitFor(() => {
       expect(screen.getAllByRole('img')).toHaveLength(21);
     });
   });
 
   it('should handle search requests', async () => {
-    render(
-      <Provider store={store}>
-        <MainPage />
-      </Provider>
-    );
     fireEvent.change(screen.getByRole('textbox'), { target: { value: USER_SEARCH_VALUE } });
     fireEvent.submit(screen.getByTestId('search-form'));
     await waitFor(() => {
@@ -56,11 +49,6 @@ describe('Main Page', () => {
   });
 
   it('should open modal on img click', async () => {
-    render(
-      <Provider store={store}>
-        <MainPage />
-      </Provider>
-    );
     await waitFor(async () => {
       expect((await screen.findAllByRole('img')).length).toBeGreaterThan(1);
     });

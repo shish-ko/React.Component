@@ -8,23 +8,25 @@ import Router from '../router';
 import userEvent from '@testing-library/user-event';
 
 describe('Search', () => {
-  it('should render input field', () => {
+  beforeEach(() => {
     render(
       <Provider store={store}>
         <Search />
       </Provider>
     );
+  });
+
+  it('should render input field', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
+
   it('should render search logo', () => {
-    render(
-      <Provider store={store}>
-        <Search />
-      </Provider>
-    );
     expect(screen.getByRole('img')).toBeInTheDocument();
   });
-  it('should save input value after submit', async () => {
+});
+
+describe('Search', () => {
+  it('should save input value after popState events', async () => {
     const user = userEvent.setup();
     render(
       <Provider store={store}>

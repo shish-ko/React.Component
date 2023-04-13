@@ -83,3 +83,14 @@ export async function getPhotos(tag: string | null) {
   const data: Root = await response.json();
   return data.photos.photo;
 }
+
+// export function fetchPhotos(searchValue: string) {
+//   return async function (dispatch) {
+//     await new Promise((res) => {
+//       setTimeout(() => {
+//         res(1);
+//       }, 2000);
+//     });
+//     dispatch({ type: 'searchValue/setSearchValue', payload: 'cadillac' });
+//   }
+// }
