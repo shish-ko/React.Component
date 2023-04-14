@@ -1,5 +1,6 @@
 import { API_KEY, TEN_YEARS } from '../data/constants';
-import { IAccountCard, Root } from 'src/interfaces';
+import { IAccountCard, Root, IPhotoDataResp } from 'src/interfaces';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export function saveAccToLS(accCard: IAccountCard) {
   const accSlice: IAccountCard = Object.assign(accCard);
@@ -84,13 +85,10 @@ export async function getPhotos(tag: string | null) {
   return data.photos.photo;
 }
 
-// export function fetchPhotos(searchValue: string) {
-//   return async function (dispatch) {
-//     await new Promise((res) => {
-//       setTimeout(() => {
-//         res(1);
-//       }, 2000);
-//     });
-//     dispatch({ type: 'searchValue/setSearchValue', payload: 'cadillac' });
-//   }
-// }
+export const fetchPhotoData = createAsyncThunk('searchValue/fetchData', async (id: string) => {
+  const response = await fetch(
+    `https://www.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=7f186c5d957a329557c371dc86a52bd1&photo_id=${id}&format=json&nojsoncallback=1`
+  );
+  const data: IPhotoDataResp = await response.json();
+  return data.photo.owner.realname;
+});
