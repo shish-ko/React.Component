@@ -1,8 +1,7 @@
 import { Photo } from '../interfaces';
 import React, { useRef } from 'react';
-import { useCloseOnClickOutside } from '../utils/customHooks';
+import { useAppSelector, useCloseOnClickOutside } from '../utils/customHooks';
 import { SyncLoader } from 'react-spinners';
-import { photoAPI } from '../features/photoAPI';
 
 interface IModalProps {
   photoItem: Photo;
@@ -11,13 +10,14 @@ interface IModalProps {
 
 export const Modal: React.FC<IModalProps> = ({ photoItem, closeHandler }) => {
   const modal = useRef<HTMLDivElement>(null);
-  const { isLoading, data } = photoAPI.useGetPhotoDataQuery(photoItem.id);
+  const data = useAppSelector((state) => state.search.photoData);
+  // const { isLoading, data } = photoAPI.useGetPhotoDataQuery(photoItem.id);
 
   useCloseOnClickOutside(modal, closeHandler);
 
   let render;
 
-  if (isLoading) {
+  if (false) {
     render = (
       <div style={{ width: photoItem.width_m }}>
         <SyncLoader color="#535bf2" />
@@ -32,8 +32,8 @@ export const Modal: React.FC<IModalProps> = ({ photoItem, closeHandler }) => {
           <p className="modal__data modal__title">Title: {photoItem.title}</p>
           <img src={photoItem.url_m} className="product__image"></img>
           <p className="modal__data">Flickr photo id: #{photoItem.id}</p>
-          <p className="modal__data">Total views: {data.photo.views}</p>
-          <p className="modal__data">Owned by: {data.photo.owner.username}</p>
+          <p className="modal__data">Total views: {data.views}</p>
+          <p className="modal__data">Owned by: {data.owner.username}</p>
         </>
       );
     }

@@ -2,6 +2,7 @@ import AboutUs from './pages/AboutUs';
 import React from 'react';
 import {
   createBrowserRouter,
+  createMemoryRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
@@ -20,7 +21,7 @@ export const appRouteObject = createRoutesFromElements(
   </Route>
 );
 
-const appRouter = createBrowserRouter(appRouteObject);
+const appRouter = createMemoryRouter(appRouteObject);
 
 const Router: React.FC = () => {
   return <RouterProvider router={appRouter} />;

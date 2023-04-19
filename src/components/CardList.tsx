@@ -2,14 +2,12 @@ import { Photo } from '../interfaces';
 import React, { useState } from 'react';
 import Card from './Card';
 import { Modal } from './Modal';
-import { photoAPI } from '../features/photoAPI';
 import { useAppSelector } from '../utils/customHooks';
 
 const CardList: React.FC = () => {
   const [modalData, setModalData] = useState<Photo>();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { value } = useAppSelector((state) => state.search);
-  const { data, isLoading } = photoAPI.useGetPhotosQuery(value || 'random');
+  const { cards, cardsIsLoading } = useAppSelector((state) => state.search);
 
   const openModal = (photoItem: Photo) => {
     setIsModalOpen(!isModalOpen);
@@ -21,14 +19,11 @@ const CardList: React.FC = () => {
 
   let render;
 
-  if (isLoading) render = <div style={{ margin: '0 auto' }}>Loading...</div>;
+  if (cardsIsLoading) render = <div style={{ margin: '0 auto' }}>Loading...</div>;
   else {
-    if (!data?.photos.photo.length)
-      render = <div style={{ margin: '0 auto' }}>No photos found</div>;
+    if (!cards.length) render = <div style={{ margin: '0 auto' }}>No photos found</div>;
     else {
-      render = data.photos.photo.map((item) => (
-        <Card modalHandler={openModal} card={item} key={item.id} />
-      ));
+      render = cards.map((item) => <Card modalHandler={openModal} card={item} key={item.id} />);
     }
   }
 

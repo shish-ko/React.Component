@@ -16,6 +16,6 @@
     "resolveJsonModule": true,
     "noEmit": true,
   },
-  "include": ["./src/**/*", "styled.d.ts"]
+  "include": ["./src/**/*", "styled.d.ts", "server/serverApp.tsx"]
 }
 

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { fetchPhotos } from '../features/photoAPI';
+import { AppDispatch } from '../store/store';
 import { setSearchValue } from '../store/searchSlice';
 import { useAppSelector } from '../utils/customHooks';
 
 export const Search: React.FC = () => {
   const searchValue = useAppSelector((state) => state.search.value);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [inputValue, setInputValue] = useState(searchValue);
 
   return (
@@ -16,6 +18,7 @@ export const Search: React.FC = () => {
       onSubmit={(e) => {
         e.preventDefault();
         dispatch(setSearchValue(inputValue));
+        dispatch(fetchPhotos(inputValue));
       }}
     >
       <input

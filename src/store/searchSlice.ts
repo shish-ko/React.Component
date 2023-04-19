@@ -1,21 +1,38 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchPhotoData } from '../utils';
+import * as toolkitRaw from '@reduxjs/toolkit';
+const { createSlice } = ((toolkitRaw as any).default ?? toolkitRaw) as typeof toolkitRaw;
+import { PayloadAction } from '@reduxjs/toolkit';
+
+import { fetchPhotos } from '../features/photoAPI';
+import { Photo, PhotoData } from '../interfaces';
+
+const initialState: {
+  value: string;
+  cards: Photo[];
+  cardsIsLoading: boolean;
+  photoData?: PhotoData;
+} = {
+  value: '',
+  cards: [],
+  cardsIsLoading: false,
+};
 
 export const searchSlice = createSlice({
   name: 'searchValue',
-  initialState: {
-    value: '',
-    owner: '',
-  },
+  initialState,
   reducers: {
     setSearchValue: (state, { payload }: PayloadAction<string>) => {
       state.value = payload;
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchPhotoData.fulfilled, (state, action) => {
-      state.owner = action.payload;
-    });
+    builder
+      .addCase(fetchPhotos.fulfilled, (state, action) => {
+        state.cards = action.payload.photos.photo;
+        state.cardsIsLoading = false;
+      })
+      .addCase(fetchPhotos.pending, (state) => {
+        state.cardsIsLoading = true;
+      });
   },
 });
 

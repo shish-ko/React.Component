@@ -5,7 +5,8 @@ import './index.css';
 import Router from './router';
 import { store } from './store/store';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.hydrateRoot(
+  document.getElementById('root') as HTMLElement,
   <React.StrictMode>
     <Provider store={store}>
       <Router />
