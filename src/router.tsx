@@ -21,7 +21,7 @@ export const appRouteObject = createRoutesFromElements(
   </Route>
 );
 
-const appRouter = createMemoryRouter(appRouteObject);
+const appRouter = createBrowserRouter(appRouteObject);
 
 const Router: React.FC = () => {
   return <RouterProvider router={appRouter} />;

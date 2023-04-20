@@ -1,6 +1,7 @@
 import { IPhotoDataResp, Root } from '../interfaces';
 import { API_KEY } from '../data/constants';
 import * as toolkitRaw from '@reduxjs/toolkit';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const { createAsyncThunk } = ((toolkitRaw as any).default ?? toolkitRaw) as typeof toolkitRaw;
 
 export const fetchPhotos = createAsyncThunk('searchValue', async (searchValue: string) => {

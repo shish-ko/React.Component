@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
+      input: '/src/client.entry.tsx',
       output: {
         entryFileNames: `[name].js`,
         assetFileNames: `assets/[name].[ext]`

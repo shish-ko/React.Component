@@ -1,19 +1,28 @@
 import express from 'express';
 import React from 'react';
 import { renderToPipeableStream } from 'react-dom/server';
-import { App } from '../src/ssr';
+import { StaticRouter } from 'react-router-dom/server';
+import { App } from '../src/App';
 
 const PORT = 3000;
 
 const app = express();
-app.get('/', (req, res) => {
-  const { pipe } = renderToPipeableStream(<App />, {
-    bootstrapScripts: ['index.js'],
-    onShellReady() {
-      res.setHeader('content-type', 'text/html');
-      pipe(res);
-    },
-  });
+app.use(express.static('dist/client'));
+
+app.get('*', (req, res) => {
+  const { pipe } = renderToPipeableStream(
+    <StaticRouter location={req.url}>
+      <App />
+    </StaticRouter>,
+    {
+      bootstrapScripts: ['/client.entry.js'],
+      onShellReady() {
+        res.setHeader('content-type', 'text/html');
+        pipe(res);
+      },
+    }
+  );
 });
-app.use(express.static('dist'));
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log('Port is started on 3000');
+});

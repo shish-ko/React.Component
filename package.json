@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "push": "vite build --outDir ./dist/server --ssr server/index.tsx",
+    "build": "tsc && vite build --outDir dist/client",
+    "server": "vite build --outDir ./dist/server --ssr server/index.tsx",
     "preview": "vite preview",
     "lint": "npx eslint src/",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "ssr": "npm run build && npm run server && node dist/server/index.js"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
