@@ -2,7 +2,6 @@ import AboutUs from './pages/AboutUs';
 import React from 'react';
 import {
   createBrowserRouter,
-  createMemoryRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,

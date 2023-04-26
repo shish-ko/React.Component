@@ -3,18 +3,20 @@ import * as toolkitRaw from '@reduxjs/toolkit';
 const { createSlice } = ((toolkitRaw as any).default ?? toolkitRaw) as typeof toolkitRaw;
 import { PayloadAction } from '@reduxjs/toolkit';
 
-import { fetchPhotos } from '../features/photoAPI';
-import { Photo, PhotoData } from '../interfaces';
+import { fetchPhotoData, fetchPhotos } from '../features/photoAPI';
+import { Photo, PhotoData } from '../interfaces/interfaces';
 
 const initialState: {
   value: string;
   cards: Photo[];
   cardsIsLoading: boolean;
+  dataIsLoading: boolean;
   photoData?: PhotoData;
 } = {
   value: '',
   cards: [],
-  cardsIsLoading: false,
+  cardsIsLoading: true,
+  dataIsLoading: true,
 };
 
 export const searchSlice = createSlice({
@@ -33,6 +35,13 @@ export const searchSlice = createSlice({
       })
       .addCase(fetchPhotos.pending, (state) => {
         state.cardsIsLoading = true;
+      })
+      .addCase(fetchPhotoData.fulfilled, (state, action) => {
+        state.photoData = action.payload.photo;
+        state.dataIsLoading = false;
+      })
+      .addCase(fetchPhotoData.pending, (state) => {
+        state.dataIsLoading = true;
       });
   },
 });

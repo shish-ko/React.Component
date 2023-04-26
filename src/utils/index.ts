@@ -1,5 +1,5 @@
 import { API_KEY, TEN_YEARS } from '../data/constants';
-import { IAccountCard, Root, IPhotoDataResp } from 'src/interfaces';
+import { IAccountCard, Root, IPhotoDataResp } from 'src/interfaces/interfaces';
 // import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export function saveAccToLS(accCard: IAccountCard) {

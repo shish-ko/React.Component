@@ -1,4 +1,4 @@
-import { IFormNames } from '../interfaces';
+import { IFormNames } from '../interfaces/interfaces';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { isAddressValid, isBirthDateValid, isImageValid } from '../utils';

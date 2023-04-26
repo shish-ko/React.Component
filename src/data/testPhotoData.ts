@@ -1,4 +1,4 @@
-import { IPhotoDataResp } from '../interfaces';
+import { IPhotoDataResp } from '../interfaces/interfaces';
 
 export const PHOTO_DATA_RES: IPhotoDataResp = {
   photo: {

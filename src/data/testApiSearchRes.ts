@@ -1,4 +1,4 @@
-import { Root } from '../interfaces';
+import { Root } from '../interfaces/interfaces';
 
 export const API_SEARCH_RESPONSE: Root = {
   photos: {

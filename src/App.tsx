@@ -8,6 +8,23 @@ import { FormPage } from './pages/FormPage';
 import { MainPage } from './pages/MainPage';
 import { store } from './store/store';
 
+export const SsrRouter: React.FC = () => {
+  return (
+    <>
+      <Provider store={store}>
+        <Routes>
+          <Route path="/" element={<Index />}>
+            <Route index={true} element={<MainPage />} />
+            <Route path="aboutus/" element={<AboutUs />} />
+            <Route path="form/" element={<FormPage />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Route>
+        </Routes>
+      </Provider>
+    </>
+  );
+};
+
 export const App: React.FC = () => {
   return (
     <html lang="en">
@@ -20,16 +37,7 @@ export const App: React.FC = () => {
       </head>
       <body>
         <div id="root">
-          <Provider store={store}>
-            <Routes>
-              <Route path="/" element={<Index />}>
-                <Route index={true} element={<MainPage />} />
-                <Route path="aboutus/" element={<AboutUs />} />
-                <Route path="form/" element={<FormPage />} />
-                <Route path="*" element={<ErrorPage />} />
-              </Route>
-            </Routes>
-          </Provider>
+          <SsrRouter />
         </div>
       </body>
     </html>

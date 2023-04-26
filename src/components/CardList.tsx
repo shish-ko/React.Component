@@ -1,23 +1,24 @@
-import { Photo } from '../interfaces';
+import { Photo } from '../interfaces/interfaces';
 import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { Modal } from './Modal';
 import { useAppSelector } from '../utils/customHooks';
 import { useDispatch } from 'react-redux';
-import { fetchPhotos } from '../features/photoAPI';
+import { fetchPhotoData, fetchPhotos } from '../features/photoAPI';
 import { AppDispatch } from '../store/store';
 
 const CardList: React.FC = () => {
   const [modalData, setModalData] = useState<Photo>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { cards, cardsIsLoading } = useAppSelector((state) => state.search);
+  const { cards, cardsIsLoading, value } = useAppSelector((state) => state.search);
 
   useEffect(() => {
-    dispatch(fetchPhotos('random'));
+    dispatch(fetchPhotos(value || 'random'));
   }, []);
 
   const openModal = (photoItem: Photo) => {
+    dispatch(fetchPhotoData(photoItem.id));
     setIsModalOpen(!isModalOpen);
     setModalData(photoItem);
   };

@@ -1,4 +1,4 @@
-import { IPhotoDataResp, PhotoData } from '../interfaces';
+import { IPhotoDataResp, PhotoData } from '../interfaces/interfaces';
 import React, { useEffect, useState } from 'react';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { RootState } from '../store/store';

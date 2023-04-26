@@ -1,4 +1,4 @@
-import { IAccountCard } from '../interfaces';
+import { IAccountCard } from '../interfaces/interfaces';
 import React from 'react';
 import { getAge } from '../utils';
 import { useDispatch } from 'react-redux';
