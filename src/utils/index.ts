@@ -1,32 +1,4 @@
-import { API_KEY, TEN_YEARS } from '../data/constants';
-import { IAccountCard, Root, IPhotoDataResp } from 'src/interfaces/interfaces';
-// import { createAsyncThunk } from '@reduxjs/toolkit';
-
-export function saveAccToLS(accCard: IAccountCard) {
-  const accSlice: IAccountCard = Object.assign(accCard);
-  const fr = new FileReader();
-  fr.addEventListener('load', () => {
-    const lsAccounts = localStorage.getItem('accounts');
-    if (typeof fr.result === 'string') accSlice.img = fr.result;
-    if (lsAccounts) {
-      const accountsArr: IAccountCard[] = JSON.parse(lsAccounts);
-      accountsArr.push(accSlice);
-      localStorage.setItem('accounts', JSON.stringify(accountsArr));
-    } else {
-      localStorage.setItem('accounts', JSON.stringify([accSlice]));
-    }
-  });
-  fr.readAsDataURL(accCard.img[0] as File);
-}
-
-export function delAccFromLS(key: string) {
-  const lsAccounts = localStorage.getItem('accounts');
-  if (lsAccounts) {
-    let accountsArr: IAccountCard[] = JSON.parse(lsAccounts);
-    accountsArr = accountsArr.filter((item) => item.key !== key);
-    localStorage.setItem('accounts', JSON.stringify(accountsArr));
-  }
-}
+import { TEN_YEARS } from '../data/constants';
 
 export const isAddressValid = (data: string) => {
   const arr = data.trim().split(' ');
@@ -67,28 +39,3 @@ export const nameCurrentPage = (pathname: string) => {
       return 'Error 404';
   }
 };
-
-export async function getPhotos(tag: string | null) {
-  let requestURL;
-  const savedValue = localStorage.getItem('searchValue');
-  if (tag) {
-    requestURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API_KEY}&tags=${tag}&safe_search&extras=url_m&format=json&nojsoncallback=1&per_page=20`;
-  } else {
-    if (savedValue) {
-      requestURL = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API_KEY}&tags=${savedValue}&safe_search&extras=url_m&format=json&nojsoncallback=1&per_page=20`;
-    } else {
-      requestURL = `https://www.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=${API_KEY}&extras=url_m&format=json&nojsoncallback=1&per_page=20`;
-    }
-  }
-  const response = await fetch(requestURL);
-  const data: Root = await response.json();
-  return data.photos.photo;
-}
-
-// export const fetchPhotoData = createAsyncThunk('searchValue/fetchData', async (id: string) => {
-//   const response = await fetch(
-//     `https://www.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=7f186c5d957a329557c371dc86a52bd1&photo_id=${id}&format=json&nojsoncallback=1`
-//   );
-//   const data: IPhotoDataResp = await response.json();
-//   return data.photo.owner.realname;
-// });
