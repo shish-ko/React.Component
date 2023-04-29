@@ -1,8 +1,4 @@
 import express from 'express';
-import React from 'react';
-import { renderToPipeableStream } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom/server';
-import { App } from '../src/App';
 import { renderTPS } from './server.entry';
 
 const PORT = 3000;

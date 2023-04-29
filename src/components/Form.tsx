@@ -1,6 +1,6 @@
 import { IFormNames } from '../interfaces/interfaces';
 import React, { useState } from 'react';
-import { FieldErrors, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { isAddressValid, isBirthDateValid, isImageValid } from '../utils';
 import { PopUp } from './PopUp';
 import { InputSelect } from './UI/Input-select';
@@ -28,12 +28,8 @@ export const CreateAccForm: React.FC = () => {
     reset();
   };
 
-  const handler2 = (data: FieldErrors<IFormNames>) => {
-    console.log(data);
-  };
-
   return (
-    <form className="form" method="post" onSubmit={handleSubmit(handler, handler2)}>
+    <form className="form" method="post" onSubmit={handleSubmit(handler)}>
       <div className="form__item">
         <InputText
           id="name"

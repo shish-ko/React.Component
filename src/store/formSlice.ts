@@ -1,6 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import * as toolkitRaw from '@reduxjs/toolkit';
-const { createSlice } = ((toolkitRaw as any).default ?? toolkitRaw) as typeof toolkitRaw;
+const { createSlice } = ((toolkitRaw as TypeToolkitRaw).default ?? toolkitRaw) as typeof toolkitRaw;
+type TypeToolkitRaw = typeof toolkitRaw & { default?: unknown };
 import { IAccountCard } from 'src/interfaces/interfaces';
 
 const initialState: IAccountCard[] = [];

@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import CardList from '../components/CardList';
 import { Search } from '../components/Search';
